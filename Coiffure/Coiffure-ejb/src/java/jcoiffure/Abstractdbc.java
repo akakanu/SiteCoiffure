@@ -31,7 +31,6 @@ public abstract class Abstractdbc<T extends Serializable> {
             T tem = getEm().merge(tentity);
             getEm().remove(tem);
             getEm().flush();
-
             return true;
         } catch (EJBException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
@@ -46,6 +45,7 @@ public abstract class Abstractdbc<T extends Serializable> {
             getEm().clear();
             T tem = getEm().merge(tentity);
             getEm().flush();
+        return tem;
         } catch (EJBException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -63,7 +63,6 @@ public abstract class Abstractdbc<T extends Serializable> {
         } catch (Exception ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         }
-
         return tentity;
     }
 
@@ -98,7 +97,6 @@ public abstract class Abstractdbc<T extends Serializable> {
             }catch(Exception e){
                 return null;
             }
-
         } catch (EJBException ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
