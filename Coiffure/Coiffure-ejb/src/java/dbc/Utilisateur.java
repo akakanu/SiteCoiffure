@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,30 +24,30 @@ import javax.validation.constraints.NotNull;
  * @author Alex
  */
 @Entity
-@Table(name = "Utilisateur", catalog = "dbcoiffure", schema = "public")
+@Table(name = "utilisateur", catalog = "dbcoiffure", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u")
     , @NamedQuery(name = "Utilisateur.findById", query = "SELECT u FROM Utilisateur u WHERE u.id = :id")
     , @NamedQuery(name = "Utilisateur.findByCode", query = "SELECT u FROM Utilisateur u WHERE u.code = :code")
-    , @NamedQuery(name = "Utilisateur.findByMotPasse", query = "SELECT u FROM Utilisateur u WHERE u.motPasse = :motPasse")})
+    , @NamedQuery(name = "Utilisateur.findByMotPasse", query = "SELECT u FROM Utilisateur u WHERE u.motpasse = :motpasse")})
 public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Id")
+    @Column(name = "id")
     private Integer id;
     @Column(name = "code")
-    private Character code;
-    @Column(name = "motPasse")
-    private Character motPasse;
-    @JoinColumn(name = "niveauAccesId", referencedColumnName = "Id")
+    private String code;
+    @Column(name = "motpasse")
+    private String motpasse;
+    @JoinColumn(name = "niveauaccesid", referencedColumnName = "id")
     @ManyToOne
-    private Niveauacces niveauAccesId;
-    @JoinColumn(name = "tiersId", referencedColumnName = "Id")
+    private Niveauacces niveauaccesid;
+    @JoinColumn(name = "tiersid", referencedColumnName = "id")
     @ManyToOne
-    private Tiers tiersId;
+    private Tiers tiersid;
 
     public Utilisateur() {
     }
@@ -62,36 +64,36 @@ public class Utilisateur implements Serializable {
         this.id = id;
     }
 
-    public Character getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Character code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public Character getMotPasse() {
-        return motPasse;
+    public String getMotPasse() {
+        return motpasse;
     }
 
-    public void setMotPasse(Character motPasse) {
-        this.motPasse = motPasse;
+    public void setMotPasse(String motPasse) {
+        this.motpasse = motPasse;
     }
 
     public Niveauacces getNiveauAccesId() {
-        return niveauAccesId;
+        return niveauaccesid;
     }
 
     public void setNiveauAccesId(Niveauacces niveauAccesId) {
-        this.niveauAccesId = niveauAccesId;
+        this.niveauaccesid = niveauAccesId;
     }
 
     public Tiers getTiersId() {
-        return tiersId;
+        return tiersid;
     }
 
     public void setTiersId(Tiers tiersId) {
-        this.tiersId = tiersId;
+        this.tiersid = tiersId;
     }
 
     @Override

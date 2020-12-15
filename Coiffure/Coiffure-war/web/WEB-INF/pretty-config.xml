@@ -1,0 +1,32 @@
+<pretty-config   xmlns="http://ocpsoft.com/prettyfaces/3.3.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.2
+   http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
+    
+    <url-mapping id="page_home">
+        <pattern value="/" />
+        <view-id value="/faces/index.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="page_niveau">
+        <pattern value="/Niveaux" />
+        <view-id value="/faces/pages/niveau.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="page_tiersc">
+        <pattern value="/Tiers" />
+        <view-id value="/faces/pages/tiersc.xhtml" />
+    </url-mapping>
+    <url-mapping id="page_usersc">
+        <pattern value="/Utilisateurs" />
+        <view-id value="/faces/pages/usersc.xhtml" />
+    </url-mapping>
+    <url-mapping id="page_clientsc">
+        <pattern value="/Clients" />
+        <view-id value="/faces/pages/clientsc.xhtml" />
+    </url-mapping>
+    <url-mapping id="page_fournisseurc">
+        <pattern value="/Fournisseurs" />
+        <view-id value="/faces/pages/fournisseurc.xhtml" />
+    </url-mapping>
+</pretty-config>

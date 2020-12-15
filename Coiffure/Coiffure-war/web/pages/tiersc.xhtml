@@ -9,44 +9,57 @@
     <ui:define name="content">   
         #{managedTiersC.loadListTiers()}
         <h:form prependId="false" id="main">
-            <p:panelGrid id="form" styleClass="ui-panelgrid-blank ui-fluid">
-                <p:row>
-                    <p:column colspan="1">
-                       <h:outputText value="Nom : " /> 
+            <div style="width: 30%;float: left">
+                <p:panelGrid id="form" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="col-md-4">
+                    <p:row>
+                        <p:column colspan="1">
+                           <h:outputText value="Nom : " /> 
+                        </p:column>
+                        <p:column colspan="1">
+                           <p:inputText value="#{managedTiersC.tiersc.nom}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="1">
+                           <h:outputText value="Prénom : " /> 
+                        </p:column>
+                        <p:column colspan="1">
+                           <p:inputText value="#{managedTiersC.tiersc.prenom}" />
+                        </p:column>
+                    </p:row>                       
+                    <p:row>
+                        <p:column colspan="2">
+                           <p:commandButton icon="pi pi-save" value="Enregistrer" actionListener="#{managedTiersC.saveTierC()}" update="form data"/>
+                        </p:column>                    
+                    </p:row>                
+                </p:panelGrid>
+            </div>
+            <div style="margin-left: 31%">
+                <p:dataTable id="data" value="#{managedTiersC.listtiers}" var="n" rowKey="#{n.id}" rowIndexVar="idx" selectionMode="single">
+                    <p:ajax event="rowSelect" listener="#{managedTiersC.selectTiersc}" update=":main:form"/>
+                    <p:ajax event="rowUnselect" listener="#{managedTiersC.unSelectTierc}" update=":main:form"/>
+                    <p:column headerText="N°" width="30" style="text-align: center">
+                        <h:outputText value="#{idx+1}" />
                     </p:column>
-                    <p:column colspan="1">
-                       <p:inputText value="#{managedTiersC.tiersc.nom}" />
+                    <p:column headerText="ID" width="30" style="text-align: center">
+                        <h:outputText value="#{n.id}" />
                     </p:column>
-                </p:row>
-                <p:row>
-                    <p:column colspan="1">
-                       <h:outputText value="Prénom : " /> 
+                    <p:column headerText="NOM">
+                        <h:outputText value="#{n.nom}" />
                     </p:column>
-                    <p:column colspan="1">
-                       <p:inputText value="#{managedTiersC.tiersc.nom}" />
+                    <p:column headerText="PRÉNOM">
+                        <h:outputText value="#{n.prenom}" />
                     </p:column>
-                </p:row>                       
-                <p:row>
-                    <p:column colspan="2">
-                       <p:commandButton icon="pi pi-save" value="Enregistrer" actionListener="#{managedTiersC.saveTierC()}" update="form"/>
-                    </p:column>                    
-                </p:row>                
-            </p:panelGrid>
-            <p:dataTable id="data" value="#{managedTiersC.listtiers}" var="n" rowKey="#{n.id}" rowIndexVar="idx" selectionMode="single">
-                <p:column headerText="N°" width="30" style="text-align: center">
-                    <h:outputText value="#{idx+1}" />
-                </p:column>
-                <p:column headerText="ID" width="30" style="text-align: center">
-                    <h:outputText value="#{n.id}" />
-                </p:column>
-                <p:column headerText="NOM">
-                    <h:outputText value="#{n.nom}" />
-                </p:column>
-                <p:column headerText="PRÉNOM">
-                    <h:outputText value="#{n.prenom}" />
-                </p:column>                
-            </p:dataTable>
-            
+                    <p:column width="30" style="text-align: center">
+                        <p:contextMenu for="btn-option_niveau"  event="click left">
+                            <p:menuitem icon="pi pi-trash" value="Supprimer" actionListener="#{managedTiersC.delTiers(n)}" update="data">
+                                <p:confirm header="Confirmation" message="Etes vous sur de vouloir supprimer?" icon="pi pi-exclamation-triangle" />
+                            </p:menuitem>
+                        </p:contextMenu>
+                        <p:commandButton id="btn-option_niveau" icon="pi pi-cog"/>
+                    </p:column>
+                </p:dataTable>                   
+            </div>                    
         </h:form>        
     </ui:define>
 </ui:composition>

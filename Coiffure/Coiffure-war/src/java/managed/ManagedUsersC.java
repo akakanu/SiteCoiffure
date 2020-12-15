@@ -60,8 +60,8 @@ public class ManagedUsersC extends Managed implements Serializable {
         int id = usersc.getId();
         String code = usersc.getCode();
         String motpasse = usersc.getMotpasse();
-        Tiers tiersId = new Tiers(usersc.getId());
-        Niveauacces niveauaccesId = new Niveauacces(usersc.getId());
+        Tiers tiersId = new Tiers(usersc.getTiersId());
+        Niveauacces niveauaccesId = new Niveauacces(usersc.getNiveauAccesId());
 
         utilisateur.setId(id);
         utilisateur.setCode(code);
@@ -98,8 +98,8 @@ public class ManagedUsersC extends Managed implements Serializable {
         int id = utilisateur.getId();
         String code = utilisateur.getCode();
         String motpasse = utilisateur.getMotPasse();
-        Tiers tierId = new Tiers(utilisateur.getId());
-        Niveauacces niveauaccesId = new Niveauacces(utilisateur.getId());
+        int tierId = utilisateur.getTiersId().getId();
+        int niveauaccesId = utilisateur.getNiveauAccesId().getId();
         
         usersc.setId(id);
         usersc.setCode(code);

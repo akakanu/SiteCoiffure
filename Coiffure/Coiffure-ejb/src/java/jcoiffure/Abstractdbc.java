@@ -53,7 +53,7 @@ public abstract class Abstractdbc<T extends Serializable> {
         }
         return tentity;
     }
-
+    
     public T insert(T tentity) {
         try {
             getEm().persist(tentity);
@@ -104,4 +104,5 @@ public abstract class Abstractdbc<T extends Serializable> {
         }
         return null;
     }
+    
 }

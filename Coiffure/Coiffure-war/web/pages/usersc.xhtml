@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../WEB-INF/template/template.xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"> 
+   <ui:define name="breadcrumb">        
+        <h:outputText value="Utilisateurs" />
+    </ui:define>
+    <ui:define name="content">   
+        #{managedUsersC.loadListUsersc()}
+        #{managedTiersC.loadListTiers()}
+        #{managedNiveau.loadListniv()}
+        <h:form prependId="false" id="main">
+            <div class="ui-fluid">
+                <p:panelGrid id="form" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="col-md-4" style="width: 30%;float: left">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Tiers"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{managedUsersC.usersc.tiersId}">
+                                <f:selectItem itemLabel="---" itemValue="0"/>
+                                <f:selectItems value="#{managedTiersC.listtiers}" var="n" itemLabel="#{n.nom} #{n.prenom}" itemValue="#{n.id}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                <p:row>
+                    <p:column colspan="1">
+                       <h:outputText value="Code : " /> 
+                    </p:column>
+                    <p:column colspan="1">
+                        <p:inputText value="#{managedUsersC.usersc.code}" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="1">
+                       <h:outputText value="Mot de passe : " /> 
+                    </p:column>
+                    <p:column colspan="1">
+                        <p:inputText value="#{managedUsersC.usersc.motpasse}" />
+                    </p:column>
+                </p:row>
+                     <p:row>
+                        <p:column>
+                            <h:outputText value="Niveau"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{managedUsersC.usersc.niveauAccesId}">
+                                <f:selectItem itemLabel="---" itemValue="0"/>
+                                <f:selectItems value="#{managedNiveau.listniv}" var="n" itemLabel="#{n.libelle}" itemValue="#{n.id}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:commandButton icon="pi pi-save" value="Enregistrer" actionListener="#{managedUsersC.saveUsersC()}" update="form data"/>
+                    </p:column>                    
+                </p:row>                
+            </p:panelGrid >           
+                <p:dataTable id="data" value="#{managedUsersC.listutilisateurs}" var="n" rowKey="#{n.id}" rowIndexVar="idx" selectionMode="single" style="margin-left: 31%">
+                    <p:ajax event="rowSelect" listener="#{managedUsersC.selectUserC}" update=":main:form"/>
+                    <p:ajax event="rowUnselect" listener="#{managedUsersC.unSelectUserc}" update=":main:form"/>
+                <p:column headerText="N°" width="30" style="text-align: center">
+                    <h:outputText value="#{idx+1}" />
+                </p:column>
+                <p:column headerText="ID" width="30" style="text-align: center">
+                    <h:outputText value="#{n.id}" />
+                </p:column>
+                <p:column headerText="CODE">
+                    <h:outputText value="#{n.code}" />
+                </p:column>
+                <p:column headerText="MOT DE PASSE">
+                    <h:outputText value="#{n.motPasse}" />
+                </p:column>
+                <p:column headerText="NIVEAU">
+                    <h:outputText value="#{n.niveauAccesId.libelle}" />
+                </p:column>
+                <p:column headerText="TIERS">
+                    <h:outputText value="#{n.tiersId.nom}" />
+                </p:column>    
+                <p:column width="30" style="text-align: center">
+                    <p:contextMenu for="btn-option_niveau"  event="click left">
+                        <p:menuitem icon="pi pi-trash" value="Supprimer" actionListener="#{managedUsersC.delUserC(n)}" update="data">
+                            <p:confirm header="Confirmation" message="Etes vous sur de vouloir supprimer?" icon="pi pi-exclamation-triangle" />
+                        </p:menuitem>
+                    </p:contextMenu>
+                    <p:commandButton id="btn-option_niveau" icon="pi pi-cog"/>
+                </p:column>
+                </p:dataTable>                 
+            </div>              
+        </h:form>        
+    </ui:define>
+</ui:composition>

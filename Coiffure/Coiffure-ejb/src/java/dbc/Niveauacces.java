@@ -6,23 +6,22 @@
 package dbc;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Alex
  */
 @Entity
-@Table(name = "Niveau_acces", catalog = "dbcoiffure", schema = "public")
+@Table(name = "niveau_acces", catalog = "dbcoiffure", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Niveauacces.findAll", query = "SELECT n FROM Niveauacces n")
     , @NamedQuery(name = "Niveauacces.findById", query = "SELECT n FROM Niveauacces n WHERE n.id = :id")
@@ -31,18 +30,12 @@ public class Niveauacces implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "Id")
     private Integer id;
     @Column(name = "libelle")
-    private Character libelle;
-    @OneToMany(mappedBy = "niveauaccesId")
-    private List<Accesressource> accesressourceList;
-    @OneToMany(mappedBy = "niveauaccesId")
-    private List<Accespage> accespageList;
-    @OneToMany(mappedBy = "niveauAccesId")
-    private List<Utilisateur> utilisateurList;
+    private String libelle;
 
     public Niveauacces() {
     }
@@ -52,43 +45,19 @@ public class Niveauacces implements Serializable {
     }
 
     public Integer getId() {
-        return id;
+        return id != null ? id : 0;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Character getLibelle() {
+    public String getLibelle() {
         return libelle;
     }
 
-    public void setLibelle(Character libelle) {
+    public void setLibelle(String libelle) {
         this.libelle = libelle;
-    }
-
-    public List<Accesressource> getAccesressourceList() {
-        return accesressourceList;
-    }
-
-    public void setAccesressourceList(List<Accesressource> accesressourceList) {
-        this.accesressourceList = accesressourceList;
-    }
-
-    public List<Accespage> getAccespageList() {
-        return accespageList;
-    }
-
-    public void setAccespageList(List<Accespage> accespageList) {
-        this.accespageList = accespageList;
-    }
-
-    public List<Utilisateur> getUtilisateurList() {
-        return utilisateurList;
-    }
-
-    public void setUtilisateurList(List<Utilisateur> utilisateurList) {
-        this.utilisateurList = utilisateurList;
     }
 
     @Override
@@ -115,5 +84,5 @@ public class Niveauacces implements Serializable {
     public String toString() {
         return "dbc.Niveauacces[ id=" + id + " ]";
     }
-    
+
 }

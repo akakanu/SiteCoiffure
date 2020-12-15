@@ -6,18 +6,17 @@
 package dbc;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -28,22 +27,21 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Client.findAll", query = "SELECT c FROM Client c")
     , @NamedQuery(name = "Client.findById", query = "SELECT c FROM Client c WHERE c.id = :id")
-    , @NamedQuery(name = "Client.findByAddresse", query = "SELECT c FROM Client c WHERE c.addresse = :addresse")})
+    , @NamedQuery(name = "Client.findByAddresse", query = "SELECT c FROM Client c WHERE c.addresse = :addresse")
+    , @NamedQuery(name = "Client.findByTiersId", query = "SELECT c FROM Client c WHERE c.tiersid = :tiersid")})
 public class Client implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Id")
+    @Column(name = "id")
     private Integer id;
     @Column(name = "addresse")
-    private Character addresse;
-    @OneToMany(mappedBy = "clientId")
-    private List<Vente> venteList;
-    @JoinColumn(name = "tiersId", referencedColumnName = "Id")
+    private String addresse;
+    @JoinColumn(name = "tiersid", referencedColumnName = "id")
     @ManyToOne
-    private Tiers tiersId;
+    private Tiers tiersid;
 
     public Client() {
     }
@@ -60,28 +58,20 @@ public class Client implements Serializable {
         this.id = id;
     }
 
-    public Character getAddresse() {
+    public String getAddresse() {
         return addresse;
     }
 
-    public void setAddresse(Character addresse) {
+    public void setAddresse(String addresse) {
         this.addresse = addresse;
     }
 
-    public List<Vente> getVenteList() {
-        return venteList;
-    }
-
-    public void setVenteList(List<Vente> venteList) {
-        this.venteList = venteList;
-    }
-
     public Tiers getTiersId() {
-        return tiersId;
+        return tiersid;
     }
 
     public void setTiersId(Tiers tiersId) {
-        this.tiersId = tiersId;
+        this.tiersid = tiersId;
     }
 
     @Override

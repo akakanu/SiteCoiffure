@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../WEB-INF/template/template.xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"> 
+    <ui:define name="breadcrumb">        
+        <h:outputText value="Niveau accès" />
+    </ui:define>
+    <ui:define name="content">   
+        #{managedNiveau.loadListniv()}
+        <h:form prependId="false" id="main">
+            <div class="ui-fluid">            
+                <p:panelGrid id="form" columns="1" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="col-md-4" style="width: 30%;float: left">
+                            <p:row>
+                                <h:outputText value="Libelle " />
+                                <p:inputText value="#{managedNiveau.niveau.libelle}" /> 
+                            </p:row>
+                            <p:row> 
+                                <p:commandButton icon="pi pi-save" value="Enregistrer" actionListener="#{managedNiveau.saveNiveau()}" update="form data"/>
+                            </p:row>                                        
+                </p:panelGrid>                   
+                <p:dataTable id="data" value="#{managedNiveau.listniv}" var="n" rowKey="#{n.id}" rowIndexVar="idx" selectionMode="single" style="margin-left: 31%">
+                            <p:ajax event="rowSelect" listener="#{managedNiveau.selectNiveau}" update=":main:form"/>
+                            <p:ajax event="rowUnselect" listener="#{managedNiveau.unselectNiveau}" update=":main:form"/>
+                            <p:column headerText="N°" width="30" style="text-align: center">
+                                <h:outputText value="#{idx+1}" />
+                            </p:column>
+                            <p:column headerText="ID" width="30" style="text-align: center">
+                                <h:outputText value="#{n.id}" />
+                            </p:column>
+                            <p:column headerText="LIBELLE">
+                                <h:outputText value="#{n.libelle}" />
+                            </p:column>
+                            <p:column width="30" style="text-align: center">
+                                <p:contextMenu for="btn-option_niveau"  event="click left">
+                                    <p:menuitem icon="pi pi-trash" value="Supprimer" actionListener="#{managedNiveau.delNiveau(n)}" update="data">
+                                        <p:confirm header="Confirmation" message="Etes vous sûr de vouloir supprimer?" icon="pi pi-exclamation-triangle" />
+                                    </p:menuitem>
+                                </p:contextMenu>
+                                <p:commandButton id="btn-option_niveau" icon="pi pi-cog"/>
+                            </p:column>
+                </p:dataTable>       
+            </div>                                                         
+        </h:form>
+    </ui:define>
+</ui:composition>

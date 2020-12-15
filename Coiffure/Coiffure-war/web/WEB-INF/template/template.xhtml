@@ -3,25 +3,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css" />
+        <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css" />
     </h:head>
-    <h:body>
+    <h:body>                       
+        <h:form>            
+            <p:growl id="message" showDetail="true" sticky="true">
+                <p:autoUpdate />
+            </p:growl>
+        </h:form>
+        <h:form prependId="false">
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog> 
+        </h:form>
         <p:layout fullPage="true">
             <p:layoutUnit position="north" size="" header="Top" resizable="true" closable="true" collapsible="true" style="z-index: 2!important; overflow-y: hidden !important;">
                 <h:panelGrid style="float: left" columns="2" cellpadding="0" cellspacing="0">
                     <p:graphicImage library="images" name="OIP.jpg" alt="Image" height="50" width="50" style="padding: 5px" />
                     <h:panelGrid columns="1" cellpadding="0" cellspacing="0">
                         <p:outputLabel value="CoiffureExp" style="font-size: 1.2em; font-weight: bold"/>
-                        <p:outputLabel value="Accueil"/>
+                        <ui:insert name="breadcrumb"/>
                     </h:panelGrid>
                 </h:panelGrid>
                 <h:panelGrid  style="float: right" columns="2" cellpadding="0" cellspacing="0">                    
                     <h:panelGrid columns="3">
-                        <p:commandButton icon="pi pi-home" title="Accueil" />
+                        <p:commandButton icon="pi pi-home" title="Accueil" action="pretty:page_home"/>
                         <p:commandButton icon="pi pi-power-off" title="Deconnection" />
                         <p:commandButton icon="pi pi-user" title="Profil" />
                     </h:panelGrid>
@@ -36,61 +48,38 @@
                 <h:outputLabel value="Copyright &copy; Website Coiffure 2020"/>
             </p:layoutUnit>
 
-            <p:layoutUnit position="west" size="200" header="Left" resizable="true" closable="true" collapsible="true">
-                <h:outputText value="West unit content." />
+            <p:layoutUnit position="west" size="220" resizable="true" closable="true" collapsible="true">
                 <h:form>
-                    <p:menu toggleable="true">
-                        <p:submenu label="Dashboard">
-                            <p:menuitem value="dashboard" action="#{menuView.save}" icon="pi pi-save" />
+                    <p:panelMenu style="width: 100%">
+                        <p:submenu label="Accès" expanded="true">
+                            <p:menuitem value="Niveau acces" action="pretty:page_niveau" icon="pi pi-save" />
+                            <p:menuitem value="Utilisateur" action="pretty:page_usersc" icon="pi pi-save" />
+                            <p:menuitem value="Droit d'acces"  icon="pi pi-save" />
                         </p:submenu>
-                        <p:submenu label="Ajax">
-                            <p:menuitem value="Save" action="#{menuView.save}" icon="pi pi-save" />
-                            <p:menuitem value="Update" action="#{menuView.update}" icon="pi pi-refresh"/>
+                        <p:submenu label="Tiers" expanded="false">
+                            <p:menuitem value="Tiers" action="pretty:page_tiersc" icon="pi pi-save"  />
+                            <p:menuitem value="Clients" action="pretty:page_clientsc" icon="pi pi-refresh"/>
+                            <p:menuitem value="Fournisseurs" action="pretty:page_fournisseurc"  icon="pi pi-refresh"/>
                         </p:submenu>
-                        <p:submenu label="Non-Ajax">
-                            <p:menuitem value="Delete" action="#{menuView.delete}" icon="pi pi-times"/>
+                        <p:submenu label="Produits" expanded="false">
+                            <p:menuitem value="Produits" action="#{menuView.delete}" icon="pi pi-times"/>
                         </p:submenu>
-                        <p:submenu label="Navigations">
-                            <p:menuitem value="External" url="http://www.primefaces.org" icon="pi pi-home"/>
-                            <p:menuitem value="Internal" icon="pi pi-star"/>
+                        <p:submenu label="Services" expanded="false">
+                            <p:menuitem value="Achats" url="http://www.primefaces.org" icon="pi pi-home"/>
+                            <p:menuitem value="Reservations" icon="pi pi-star"/>
+                            <p:menuitem value="Ventes" icon="pi pi-star"/>
                         </p:submenu>
-                    </p:menu>
+                    </p:panelMenu>
                 </h:form>             
 
             </p:layoutUnit>
 
             <p:layoutUnit position="east" size="200" header="Right" resizable="true" closable="true" collapsible="true" effect="drop">
-                <h:outputText value="Right unit content." />
+                <ui:insert name="right"/>
             </p:layoutUnit>
 
-            <p:layoutUnit position="center">
-                <h:outputText value="Center unit content." />                
-                <div id="page-wrapper">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1 class="page-header">Dashboard</h1>
-                            </div>
-                            <!-- /.col-lg-12 -->                       
-                        </div>
-
-                        <!-- /.row -->
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6" style="background-color: greenyellow">
-                                <h1>1</h1>
-                            </div>
-                            <div class="col-lg-3 col-md-6" style="background-color: yellow">
-                                <h1>2</h1>
-                            </div>
-                            <div class="col-lg-3 col-md-6" style="background-color: green">
-                                <h1>3</h1>
-                            </div>
-                            <div class="col-lg-3 col-md-6" style="background-color: red">
-                                <h1>4</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <p:layoutUnit position="center"> 
+                <ui:insert name="content"/>
             </p:layoutUnit>
 
         </p:layout>

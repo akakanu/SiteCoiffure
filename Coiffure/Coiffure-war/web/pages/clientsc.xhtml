@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="../WEB-INF/template/template.xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"> 
+   <ui:define name="breadcrumb">        
+        <h:outputText value="Clients" />
+    </ui:define>
+    <ui:define name="content">  
+        #{managedClientC.loadListClients()}
+         <h:form prependId="false" id="main">
+            <div class="ui-fluid">
+                <p:panelGrid id="form" styleClass="ui-panelgrid-blank ui-fluid" columnClasses="col-md-4" style="width: 30%;float: left">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nom"/>
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:inputText value="#{managedClientC.clientsc.tiers.nom}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="1">
+                           <h:outputText value="Prénom  " /> 
+                        </p:column>
+                        <p:column colspan="1">
+                            <p:inputText value="#{managedClientC.clientsc.tiers.prenom}" />
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="1">
+                           <h:outputText value="Adresse " /> 
+                        </p:column>
+                        <p:column>
+                            <p:inputTextarea rows="3" value="#{managedClientC.clientsc.adresse}" cols="10" counter="display" maxlength="10" counterTemplate="{0} characters remaining." autoResize="false" />
+                            <h:outputText id="display" />  
+                        </p:column>                  
+                    </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:commandButton icon="pi pi-save" value="Enregistrer" actionListener="#{managedClientC.saveClientC()}" update="form data"/>
+                    </p:column>                    
+                </p:row>                
+            </p:panelGrid >           
+            <p:dataTable id="data" value="#{managedClientC.listclients}" var="n" rowKey="#{n.id}" rowIndexVar="idx" selectionMode="single" style="margin-left: 31%">
+                <p:ajax event="rowSelect" listener="#{managedClientC.selectClientC}" update=":main:form"/>
+                <p:ajax event="rowUnselect" listener="#{managedClientC.unSelectClientc}" update=":main:form"/>
+                <p:column headerText="N°" width="30" style="text-align: center">
+                    <h:outputText value="#{idx+1}" />
+                </p:column>
+                <p:column headerText="ID" width="30" style="text-align: center">
+                    <h:outputText value="#{n.id}" />
+                </p:column>
+                <p:column headerText="NOM">
+                    <h:outputText value="#{n.tiersId.nom}" />
+                </p:column>
+                <p:column headerText="PRÉNOM">
+                    <h:outputText value="#{n.tiersId.prenom}" />
+                </p:column>
+                <p:column headerText="ADRESSE">
+                    <h:outputText value="#{n.addresse}" />
+                </p:column>
+                <p:column width="30" style="text-align: center">
+                    <p:contextMenu for="btn-option_niveau"  event="click left">
+                        <p:menuitem icon="pi pi-trash" value="Supprimer" actionListener="#{managedClientC.delClients(n)}" update="data">
+                            <p:confirm header="Confirmation" message="Etes vous sur de vouloir supprimer?" icon="pi pi-exclamation-triangle" />
+                        </p:menuitem>
+                    </p:contextMenu>
+                    <p:commandButton id="btn-option_niveau" icon="pi pi-cog"/>
+                </p:column>
+                </p:dataTable>                 
+            </div>              
+        </h:form>              
+    </ui:define>
+</ui:composition>

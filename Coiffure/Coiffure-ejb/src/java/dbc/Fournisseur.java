@@ -10,8 +10,11 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,25 +31,21 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Fournisseur.findAll", query = "SELECT f FROM Fournisseur f")
     , @NamedQuery(name = "Fournisseur.findByAddresse", query = "SELECT f FROM Fournisseur f WHERE f.addresse = :addresse")
-    , @NamedQuery(name = "Fournisseur.findByTiersId", query = "SELECT f FROM Fournisseur f WHERE f.tiersId = :tiersId")
+    , @NamedQuery(name = "Fournisseur.findByTiersId", query = "SELECT f FROM Fournisseur f WHERE f.tiersid = :tiersid")
     , @NamedQuery(name = "Fournisseur.findById", query = "SELECT f FROM Fournisseur f WHERE f.id = :id")})
 public class Fournisseur implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "addresse")
-    private Character addresse;
-    @Column(name = "tiersId")
-    private Integer tiersId;
+    private String addresse;
+    @JoinColumn(name = "tiersid", referencedColumnName = "id")
+    @ManyToOne
+    private Tiers tiersid;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "Id")
+    @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "Id", referencedColumnName = "Id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Tiers tiers;
-    @OneToMany(mappedBy = "fournisseurId")
-    private List<Achat> achatList;
 
     public Fournisseur() {
     }
@@ -55,20 +54,20 @@ public class Fournisseur implements Serializable {
         this.id = id;
     }
 
-    public Character getAddresse() {
+    public String getAddresse() {
         return addresse;
     }
 
-    public void setAddresse(Character addresse) {
+    public void setAddresse(String addresse) {
         this.addresse = addresse;
     }
 
-    public Integer getTiersId() {
-        return tiersId;
+    public Tiers getTiersId() {
+        return tiersid;
     }
 
-    public void setTiersId(Integer tiersId) {
-        this.tiersId = tiersId;
+    public void setTiersId(Tiers tiersId) {
+        this.tiersid = tiersId;
     }
 
     public Integer getId() {
@@ -77,22 +76,6 @@ public class Fournisseur implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Tiers getTiers() {
-        return tiers;
-    }
-
-    public void setTiers(Tiers tiers) {
-        this.tiers = tiers;
-    }
-
-    public List<Achat> getAchatList() {
-        return achatList;
-    }
-
-    public void setAchatList(List<Achat> achatList) {
-        this.achatList = achatList;
     }
 
     @Override
